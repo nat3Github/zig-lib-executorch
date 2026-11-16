@@ -16,9 +16,9 @@
 #include <vector>
 
 /* Header-only FPU helpers (get/set_fpu_state, disable_fpu_denormals). Kept
- * last: it defines global min()/max() helpers. Included by relative path so
- * builds without XNNPACK (no pthreadpool include dir) still find it. */
-#include "../../pthreadpool-fork/src/threadpool-utils.h"
+ * last: it defines global min()/max() helpers. build.zig puts pthreadpool's
+ * src/ on the include path for every target, with or without XNNPACK. */
+#include "threadpool-utils.h"
 
 using executorch::aten::ScalarType;
 using executorch::extension::from_blob;

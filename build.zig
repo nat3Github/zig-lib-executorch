@@ -60,6 +60,7 @@ fn addLibModule(b: *std.Build, target: std.Build.ResolvedTarget, optimize: std.b
     mod.addIncludePath(b.path(c10_shim_include_dir));
     mod.addIncludePath(b.path(generated_dir));
     mod.addIncludePath(b.path("src/shim"));
+    mod.addIncludePath(b.dependency("pthreadpool", .{}).path("src"));
 
     // Unlike macOS (built natively on this host, so zig auto-detects the
     // system SDK), iOS is always a foreign cross-target here: zig ships no
