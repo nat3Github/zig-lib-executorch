@@ -4,14 +4,25 @@
     .fingerprint = 0xe10e6a46061e2413,
     .minimum_zig_version = "0.17.1",
     .dependencies = .{
-        .xnnpack = .{ .path = "../xnnpack-fork" },
-        .cpuinfo = .{ .path = "../cpuinfo" },
-        .pthreadpool = .{ .path = "../pthreadpool-fork" },
+        .xnnpack = .{
+            .url = "git+https://github.com/nat3Github/c-lib-xnnpack#8665997c10aa00c77f88a4406fd5e35c50ed6d5f",
+            .hash = "xnnpack-0.0.0-f9lA7I0I6gZjYn4QFQcutvwmLHh28ahBIUdC-yVfaXFo",
+        },
+        .cpuinfo = .{
+            .url = "git+https://github.com/nat3Github/c-lib-cpuinfo#94811dbe0432536919ce1be5a577a7df19bd7c6a",
+            .hash = "cpuinfo-0.0.0-DdwsNhU5DQD2hwkp5DZ7-eyfid2_cPLzmd73asFS_3gM",
+        },
+        .pthreadpool = .{
+            .url = "git+https://github.com/nat3Github/c-lib-pthreadpool#1416b5b21302da270fd333f38003603c4230eb16",
+            .hash = "pthreadpool-0.0.0-mwFHPkxtCQCzYFb_4Ou01Wz4uK5ZgCKCKwS4LCk6Upgk",
+        },
     },
     .paths = .{
         "build.zig",
         "build.zig.zon",
         "src",
         "vendor",
+        "LICENSE",
+        "README.md",
     },
 }
