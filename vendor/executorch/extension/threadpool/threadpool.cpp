@@ -52,13 +52,14 @@ void child_atfork() {
 #endif
 
 ThreadPool::ThreadPool(size_t thread_count)
-    : threadpool_(pthreadpool_create(thread_count), pthreadpool_destroy) {}
+    : threadpool_(pthreadpool_create(thread_count), pthreadpool_destroy),
+      thread_count_(
+          threadpool_ ? pthreadpool_get_threads_count(threadpool_.get()) : 0) {}
 
 size_t ThreadPool::get_thread_count() const {
   std::lock_guard<std::mutex> lock{mutex_};
 
-  ET_CHECK_MSG(threadpool_.get(), "Invalid threadpool!");
-  return pthreadpool_get_threads_count(threadpool_.get());
+  return thread_count_;
 }
 
 bool ThreadPool::_unsafe_reset_threadpool(uint32_t new_thread_count) {
@@ -72,6 +73,8 @@ bool ThreadPool::_unsafe_reset_threadpool(uint32_t new_thread_count) {
   std::lock_guard<std::mutex> lock{mutex_};
 
   threadpool_.reset(pthreadpool_create(new_thread_count));
+  thread_count_ =
+      threadpool_ ? pthreadpool_get_threads_count(threadpool_.get()) : 0;
   return true;
 }
 
@@ -79,6 +82,7 @@ void ThreadPool::_unsafe_destroy_threadpool() {
   std::lock_guard<std::mutex> lock{mutex_};
   ET_LOG(Info, "Destroying threadpool.");
   threadpool_.reset();
+  thread_count_ = 0;
 }
 
 void ThreadPool::run(
@@ -136,6 +140,17 @@ ThreadPool* get_threadpool() {
     // Set threads equal to the number of performance cores.
     auto result = ::executorch::extension::cpuinfo::get_num_performant_cores();
 #endif
+#if defined(__linux__) && !defined(__ANDROID__)
+    // Never start more threads than the CPUs in this thread's affinity mask,
+    // which the pool's threads inherit, and use that number when the count is
+    // unknown (0), which pthreadpool would fill in with every online CPU, past
+    // the cap below.
+    const auto allowed =
+        ::executorch::extension::cpuinfo::get_num_allowed_cpus();
+    if (allowed > 0) {
+      result = result == 0 ? allowed : std::min(result, allowed);
+    }
+#endif
 
     /*
      * For llvm-tsan, holding limit for the number of locks for a single thread
@@ -145,11 +160,19 @@ ThreadPool* get_threadpool() {
      * tricky to detect if we are running under tsan, for now capping the
      * default threadcount to the tsan limit unconditionally.
      */
-    constexpr unsigned int tsan_thread_limit = 63;
+    constexpr decltype(result) tsan_thread_limit = 63;
     return std::min(result, tsan_thread_limit);
   })();
 
+#if defined(_WIN32)
+  // Never destroyed. At process exit Windows terminates the worker threads
+  // before running a DLL's static destructors, so tearing the pool down there
+  // waits on a lock a terminated worker may hold and the process never exits.
+  static auto& threadpool = *new std::unique_ptr<ThreadPool>(
+      std::make_unique<ThreadPool>(num_threads));
+#else
   static auto threadpool = std::make_unique<ThreadPool>(num_threads);
+#endif
 
 // Inheriting from old threadpool to get around segfault issue
 // commented above at child_atfork

@@ -1,8 +1,8 @@
 # zig-lib-executorch
 
-Zig bindings for the [ExecuTorch](https://github.com/pytorch/executorch) runtime (v1.3.1) with the XNNPACK backend. Builds with `zig build` alone: the ExecuTorch codegen output is vendored, so no CMake, Python or flatc is needed.
+Zig bindings for the [ExecuTorch](https://github.com/pytorch/executorch) runtime (v1.6.0) with the XNNPACK backend. Builds with `zig build` alone: the ExecuTorch codegen output is vendored, so no CMake, Python or flatc is needed.
 
-Requires Zig 0.17.1. Tested on macOS and Linux (x86_64, aarch64) and on Windows x86_64. Android compiles, iOS is blocked by zig's libc++ build.
+Requires Zig 0.17.1. Export `.pte` files with the same ExecuTorch version: `pip install executorch==1.6.0 torch==2.15.0`. Tested on macOS and Linux (x86_64, aarch64) and on Windows x86_64. Android compiles, iOS is blocked by zig's libc++ build.
 
 ```sh
 zig fetch --save git+https://github.com/nat3Github/zig-lib-executorch

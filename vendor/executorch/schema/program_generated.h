@@ -68,6 +68,9 @@ struct OperatorBuilder;
 struct KernelCall;
 struct KernelCallBuilder;
 
+struct DelegateScratch;
+struct DelegateScratchBuilder;
+
 struct DelegateCall;
 struct DelegateCallBuilder;
 
@@ -1634,11 +1637,70 @@ inline ::flatbuffers::Offset<KernelCall> CreateKernelCallDirect(
       args__);
 }
 
+struct DelegateScratch FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+  typedef DelegateScratchBuilder Builder;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT_ALLOCATION = 4,
+    VT_SIZE = 6
+  };
+  const executorch_flatbuffer::AllocationDetails *allocation() const {
+    return GetPointer<const executorch_flatbuffer::AllocationDetails *>(VT_ALLOCATION);
+  }
+  executorch_flatbuffer::AllocationDetails *mutable_allocation() {
+    return GetPointer<executorch_flatbuffer::AllocationDetails *>(VT_ALLOCATION);
+  }
+  uint64_t size() const {
+    return GetField<uint64_t>(VT_SIZE, 0);
+  }
+  bool mutate_size(uint64_t _size = 0) {
+    return SetField<uint64_t>(VT_SIZE, _size, 0);
+  }
+  bool Verify(::flatbuffers::Verifier &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyOffset(verifier, VT_ALLOCATION) &&
+           verifier.VerifyTable(allocation()) &&
+           VerifyField<uint64_t>(verifier, VT_SIZE, 8) &&
+           verifier.EndTable();
+  }
+};
+
+struct DelegateScratchBuilder {
+  typedef DelegateScratch Table;
+  ::flatbuffers::FlatBufferBuilder &fbb_;
+  ::flatbuffers::uoffset_t start_;
+  void add_allocation(::flatbuffers::Offset<executorch_flatbuffer::AllocationDetails> allocation) {
+    fbb_.AddOffset(DelegateScratch::VT_ALLOCATION, allocation);
+  }
+  void add_size(uint64_t size) {
+    fbb_.AddElement<uint64_t>(DelegateScratch::VT_SIZE, size, 0);
+  }
+  explicit DelegateScratchBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  ::flatbuffers::Offset<DelegateScratch> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = ::flatbuffers::Offset<DelegateScratch>(end);
+    return o;
+  }
+};
+
+inline ::flatbuffers::Offset<DelegateScratch> CreateDelegateScratch(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    ::flatbuffers::Offset<executorch_flatbuffer::AllocationDetails> allocation = 0,
+    uint64_t size = 0) {
+  DelegateScratchBuilder builder_(_fbb);
+  builder_.add_size(size);
+  builder_.add_allocation(allocation);
+  return builder_.Finish();
+}
+
 struct DelegateCall FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   typedef DelegateCallBuilder Builder;
   enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
     VT_DELEGATE_INDEX = 4,
-    VT_ARGS = 6
+    VT_ARGS = 6,
+    VT_SCRATCH = 8
   };
   int32_t delegate_index() const {
     return GetField<int32_t>(VT_DELEGATE_INDEX, 0);
@@ -1652,11 +1714,20 @@ struct DelegateCall FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   ::flatbuffers::Vector<int32_t> *mutable_args() {
     return GetPointer<::flatbuffers::Vector<int32_t> *>(VT_ARGS);
   }
+  const ::flatbuffers::Vector<::flatbuffers::Offset<executorch_flatbuffer::DelegateScratch>> *scratch() const {
+    return GetPointer<const ::flatbuffers::Vector<::flatbuffers::Offset<executorch_flatbuffer::DelegateScratch>> *>(VT_SCRATCH);
+  }
+  ::flatbuffers::Vector<::flatbuffers::Offset<executorch_flatbuffer::DelegateScratch>> *mutable_scratch() {
+    return GetPointer<::flatbuffers::Vector<::flatbuffers::Offset<executorch_flatbuffer::DelegateScratch>> *>(VT_SCRATCH);
+  }
   bool Verify(::flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
            VerifyField<int32_t>(verifier, VT_DELEGATE_INDEX, 4) &&
            VerifyOffset(verifier, VT_ARGS) &&
            verifier.VerifyVector(args()) &&
+           VerifyOffset(verifier, VT_SCRATCH) &&
+           verifier.VerifyVector(scratch()) &&
+           verifier.VerifyVectorOfTables(scratch()) &&
            verifier.EndTable();
   }
 };
@@ -1670,6 +1741,9 @@ struct DelegateCallBuilder {
   }
   void add_args(::flatbuffers::Offset<::flatbuffers::Vector<int32_t>> args) {
     fbb_.AddOffset(DelegateCall::VT_ARGS, args);
+  }
+  void add_scratch(::flatbuffers::Offset<::flatbuffers::Vector<::flatbuffers::Offset<executorch_flatbuffer::DelegateScratch>>> scratch) {
+    fbb_.AddOffset(DelegateCall::VT_SCRATCH, scratch);
   }
   explicit DelegateCallBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
         : fbb_(_fbb) {
@@ -1685,8 +1759,10 @@ struct DelegateCallBuilder {
 inline ::flatbuffers::Offset<DelegateCall> CreateDelegateCall(
     ::flatbuffers::FlatBufferBuilder &_fbb,
     int32_t delegate_index = 0,
-    ::flatbuffers::Offset<::flatbuffers::Vector<int32_t>> args = 0) {
+    ::flatbuffers::Offset<::flatbuffers::Vector<int32_t>> args = 0,
+    ::flatbuffers::Offset<::flatbuffers::Vector<::flatbuffers::Offset<executorch_flatbuffer::DelegateScratch>>> scratch = 0) {
   DelegateCallBuilder builder_(_fbb);
+  builder_.add_scratch(scratch);
   builder_.add_args(args);
   builder_.add_delegate_index(delegate_index);
   return builder_.Finish();
@@ -1695,12 +1771,15 @@ inline ::flatbuffers::Offset<DelegateCall> CreateDelegateCall(
 inline ::flatbuffers::Offset<DelegateCall> CreateDelegateCallDirect(
     ::flatbuffers::FlatBufferBuilder &_fbb,
     int32_t delegate_index = 0,
-    const std::vector<int32_t> *args = nullptr) {
+    const std::vector<int32_t> *args = nullptr,
+    const std::vector<::flatbuffers::Offset<executorch_flatbuffer::DelegateScratch>> *scratch = nullptr) {
   auto args__ = args ? _fbb.CreateVector<int32_t>(*args) : 0;
+  auto scratch__ = scratch ? _fbb.CreateVector<::flatbuffers::Offset<executorch_flatbuffer::DelegateScratch>>(*scratch) : 0;
   return executorch_flatbuffer::CreateDelegateCall(
       _fbb,
       delegate_index,
-      args__);
+      args__,
+      scratch__);
 }
 
 struct MoveCall FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {

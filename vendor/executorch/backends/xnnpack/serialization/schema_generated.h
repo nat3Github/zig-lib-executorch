@@ -292,11 +292,12 @@ enum class XNodeUnion : uint8_t {
   XNNSin = 45,
   XNNCopy = 46,
   XNNCos = 47,
+  XNNApproxGelu = 48,
   MIN = NONE,
-  MAX = XNNCos
+  MAX = XNNApproxGelu
 };
 
-inline const XNodeUnion (&EnumValuesXNodeUnion())[48] {
+inline const XNodeUnion (&EnumValuesXNodeUnion())[49] {
   static const XNodeUnion values[] = {
     XNodeUnion::NONE,
     XNodeUnion::XNNAdd,
@@ -345,13 +346,14 @@ inline const XNodeUnion (&EnumValuesXNodeUnion())[48] {
     XNodeUnion::XNNExp,
     XNodeUnion::XNNSin,
     XNodeUnion::XNNCopy,
-    XNodeUnion::XNNCos
+    XNodeUnion::XNNCos,
+    XNodeUnion::XNNApproxGelu
   };
   return values;
 }
 
 inline const char * const *EnumNamesXNodeUnion() {
-  static const char * const names[49] = {
+  static const char * const names[50] = {
     "NONE",
     "XNNAdd",
     "XNNFullyConnected",
@@ -400,13 +402,14 @@ inline const char * const *EnumNamesXNodeUnion() {
     "XNNSin",
     "XNNCopy",
     "XNNCos",
+    "XNNApproxGelu",
     nullptr
   };
   return names;
 }
 
 inline const char *EnumNameXNodeUnion(XNodeUnion e) {
-  if (::flatbuffers::IsOutRange(e, XNodeUnion::NONE, XNodeUnion::XNNCos)) return "";
+  if (::flatbuffers::IsOutRange(e, XNodeUnion::NONE, XNodeUnion::XNNApproxGelu)) return "";
   const size_t index = static_cast<size_t>(e);
   return EnumNamesXNodeUnion()[index];
 }
@@ -1224,6 +1227,9 @@ struct XNode FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   }
   const fb_xnnpack::_XNNNode1x1 *xnode_union_as_XNNCos() const {
     return xnode_union_type() == fb_xnnpack::XNodeUnion::XNNCos ? static_cast<const fb_xnnpack::_XNNNode1x1 *>(xnode_union()) : nullptr;
+  }
+  const fb_xnnpack::_XNNNode1x1 *xnode_union_as_XNNApproxGelu() const {
+    return xnode_union_type() == fb_xnnpack::XNodeUnion::XNNApproxGelu ? static_cast<const fb_xnnpack::_XNNNode1x1 *>(xnode_union()) : nullptr;
   }
   uint32_t debug_handle() const {
     return GetField<uint32_t>(VT_DEBUG_HANDLE, 0);
@@ -3413,6 +3419,10 @@ inline bool VerifyXNodeUnion(::flatbuffers::Verifier &verifier, const void *obj,
       return verifier.VerifyTable(ptr);
     }
     case XNodeUnion::XNNCos: {
+      auto ptr = reinterpret_cast<const fb_xnnpack::_XNNNode1x1 *>(obj);
+      return verifier.VerifyTable(ptr);
+    }
+    case XNodeUnion::XNNApproxGelu: {
       auto ptr = reinterpret_cast<const fb_xnnpack::_XNNNode1x1 *>(obj);
       return verifier.VerifyTable(ptr);
     }

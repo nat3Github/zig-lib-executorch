@@ -18,14 +18,22 @@
 #include <executorch/runtime/backend/options.h>
 #include <executorch/runtime/executor/program.h>
 
+#include <executorch/runtime/core/device_memory_buffer.h>
+
 #ifdef USE_ATEN_LIB
 #define ET_MODULE_NAMESPACE module::aten
+#define ET_PTN_MODULE_NAMESPACE native_module::aten
 #else // !USE_ATEN_LIB
 #define ET_MODULE_NAMESPACE module
+#define ET_PTN_MODULE_NAMESPACE native_module
 #endif // USE_ATEN_LIB
 
 namespace executorch {
 namespace extension {
+
+namespace ET_PTN_MODULE_NAMESPACE::internal {
+class PtnModule;
+} // namespace ET_PTN_MODULE_NAMESPACE::internal
 
 using ET_RUNTIME_NAMESPACE::Kernel;
 using ET_RUNTIME_NAMESPACE::Method;
@@ -56,6 +64,12 @@ class Module {
     MmapUseMlockIgnoreErrors,
     /// Use mmap with madvise(MADV_WILLNEED | MADV_SEQUENTIAL) hints.
     MmapUseMadvise,
+  };
+
+  /// Serialized program format selected after loading.
+  enum class Format {
+    Pte,
+    Ptn,
   };
 
   /**
@@ -232,15 +246,19 @@ class Module {
    *
    * @returns true if the program is loaded, false otherwise.
    */
-  virtual inline bool is_loaded() const {
-    return program_ != nullptr;
+  virtual bool is_loaded() const {
+    return program_ != nullptr || ptn_ != nullptr;
   }
+
+  /** Loads the program if needed and returns its serialized format. */
+  runtime::Result<Format> format();
 
   /**
    * Get the program. The data loader used by the program is guaranteed to be
    * valid for the lifetime of the program.
    *
-   * @returns Shared pointer to the program or nullptr if it's not yet loaded.
+   * @returns Shared pointer to the PTE program, or nullptr if the Module is not
+   *          loaded or contains a different format.
    */
   inline std::shared_ptr<Program> program() const {
     return program_;
@@ -298,9 +316,7 @@ class Module {
    *
    * @returns True if the method is unloaded, false if no-op.
    */
-  inline bool unload_method(const std::string& method_name) {
-    return methods_.erase(method_name);
-  }
+  bool unload_method(const std::string& method_name);
 
   /**
    * DEPRECATED: Module manages each Method exclusively.
@@ -363,9 +379,7 @@ class Module {
    * @returns true if the method specified by method_name is loaded, false
    * otherwise.
    */
-  inline bool is_method_loaded(const std::string& method_name) const {
-    return methods_.count(method_name);
-  }
+  bool is_method_loaded(const std::string& method_name) const;
 
   /**
    * Get a method metadata struct by method name.
@@ -716,6 +730,11 @@ class Module {
   struct PlannedMemory {
     std::vector<std::vector<uint8_t>> planned_buffers;
     std::vector<runtime::Span<uint8_t>> planned_spans;
+    std::vector<runtime::DeviceMemoryBuffer> device_buffers;
+    /// Per-buffer Device (type + index) metadata used by
+    /// HierarchicalAllocator. Owns the storage backing the device span the
+    /// allocator references, so it must outlive `planned_memory`.
+    std::vector<runtime::etensor::Device> planned_devices;
     std::unique_ptr<runtime::HierarchicalAllocator> planned_memory;
   };
   std::unique_ptr<PlannedMemory> make_planned_memory(
@@ -723,6 +742,9 @@ class Module {
   std::unique_ptr<PlannedMemory> make_planned_memory_with_shared_arenas(
       const std::vector<size_t>& buffer_sizes,
       std::vector<std::vector<uint8_t>>& shared_arenas);
+  runtime::Result<std::unique_ptr<PlannedMemory>>
+  make_planned_memory_with_devices(
+      const ET_RUNTIME_NAMESPACE::MethodMeta& method_meta);
   runtime::Result<std::vector<size_t>> get_mem_planned_buffer_sizes(
       const std::string& method_name);
   runtime::Result<std::vector<size_t>> get_max_mem_planned_buffer_sizes();
@@ -738,6 +760,7 @@ class Module {
   std::vector<std::string> data_files_;
   LoadMode load_mode_{LoadMode::File};
   std::shared_ptr<Program> program_;
+  std::shared_ptr<ET_PTN_MODULE_NAMESPACE::internal::PtnModule> ptn_;
   std::unique_ptr<runtime::DataLoader> data_loader_;
   std::unique_ptr<runtime::MemoryAllocator> memory_allocator_;
   std::unique_ptr<runtime::MemoryAllocator> temp_allocator_;
@@ -758,7 +781,8 @@ class Module {
   bool share_memory_arenas_;
 
   ET_NODISCARD runtime::Error load_internal(
-      const Program::Verification verification);
+      const Program::Verification verification,
+      bool has_backend_options = false);
 
  protected:
   std::unordered_map<std::string, MethodHolder> methods_;

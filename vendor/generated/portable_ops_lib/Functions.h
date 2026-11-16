@@ -32,7 +32,7 @@ TORCH_API inline torch::executor::Tensor & _adaptive_avg_pool2d_outf(torch::exec
 
 
 // aten::_cdist_forward.out(Tensor x1, Tensor x2, float p, int? compute_mode, *, Tensor(a!) out) -> Tensor(a!)
-TORCH_API inline torch::executor::Tensor & _cdist_forward_outf(torch::executor::KernelRuntimeContext & context, const torch::executor::Tensor & x1, const torch::executor::Tensor & x2, double p, torch::executor::optional<int64_t> compute_mode, torch::executor::Tensor & out) {
+TORCH_API inline torch::executor::Tensor & _cdist_forward_outf(torch::executor::KernelRuntimeContext & context, const torch::executor::Tensor & x1, const torch::executor::Tensor & x2, double p, std::optional<int64_t> compute_mode, torch::executor::Tensor & out) {
     return ::torch::executor::native::_cdist_forward_out(context, x1, x2, p, compute_mode, out);
 }
 
@@ -43,6 +43,12 @@ TORCH_API inline torch::executor::Tensor & _conj_physical_outf(torch::executor::
 }
 
 
+// aten::_fft_r2c.out(Tensor self, int[] dim, int normalization, bool onesided, *, Tensor(a!) out) -> Tensor(a!)
+TORCH_API inline torch::executor::Tensor & _fft_r2c_outf(torch::executor::KernelRuntimeContext & context, const torch::executor::Tensor & self, torch::executor::ArrayRef<int64_t> dim, int64_t normalization, bool onesided, torch::executor::Tensor & out) {
+    return ::torch::executor::native::_fft_r2c_out(context, self, dim, normalization, onesided, out);
+}
+
+
 // aten::_log_softmax.out(Tensor self, int dim, bool half_to_float, *, Tensor(a!) out) -> Tensor(a!)
 TORCH_API inline torch::executor::Tensor & _log_softmax_outf(torch::executor::KernelRuntimeContext & context, const torch::executor::Tensor & self, int64_t dim, bool half_to_float, torch::executor::Tensor & out) {
     return ::torch::executor::native::log_softmax_out(context, self, dim, half_to_float, out);
@@ -50,19 +56,19 @@ TORCH_API inline torch::executor::Tensor & _log_softmax_outf(torch::executor::Ke
 
 
 // aten::_native_batch_norm_legit.out(Tensor input, Tensor? weight, Tensor? bias, Tensor(a!) running_mean, Tensor(b!) running_var, bool training, float momentum, float eps, *, Tensor(d!) out, Tensor(e!) save_mean, Tensor(f!) save_invstd) -> (Tensor(d!), Tensor(e!), Tensor(f!))
-TORCH_API inline ::std::tuple<torch::executor::Tensor &,torch::executor::Tensor &,torch::executor::Tensor &> _native_batch_norm_legit_outf(torch::executor::KernelRuntimeContext & context, const torch::executor::Tensor & input, const torch::executor::optional<torch::executor::Tensor> & weight, const torch::executor::optional<torch::executor::Tensor> & bias, torch::executor::Tensor & running_mean, torch::executor::Tensor & running_var, bool training, double momentum, double eps, torch::executor::Tensor & out, torch::executor::Tensor & save_mean, torch::executor::Tensor & save_invstd) {
+TORCH_API inline ::std::tuple<torch::executor::Tensor &,torch::executor::Tensor &,torch::executor::Tensor &> _native_batch_norm_legit_outf(torch::executor::KernelRuntimeContext & context, const torch::executor::Tensor & input, const std::optional<torch::executor::Tensor> & weight, const std::optional<torch::executor::Tensor> & bias, torch::executor::Tensor & running_mean, torch::executor::Tensor & running_var, bool training, double momentum, double eps, torch::executor::Tensor & out, torch::executor::Tensor & save_mean, torch::executor::Tensor & save_invstd) {
     return ::torch::executor::native::_native_batch_norm_legit_out(context, input, weight, bias, running_mean, running_var, training, momentum, eps, out, save_mean, save_invstd);
 }
 
 
 // aten::_native_batch_norm_legit.no_stats_out(Tensor input, Tensor? weight, Tensor? bias, bool training, float momentum, float eps, *, Tensor(a!) out, Tensor(b!) save_mean, Tensor(c!) save_invstd) -> (Tensor(a!), Tensor(b!), Tensor(c!))
-TORCH_API inline ::std::tuple<torch::executor::Tensor &,torch::executor::Tensor &,torch::executor::Tensor &> _native_batch_norm_legit_outf(torch::executor::KernelRuntimeContext & context, const torch::executor::Tensor & input, const torch::executor::optional<torch::executor::Tensor> & weight, const torch::executor::optional<torch::executor::Tensor> & bias, bool training, double momentum, double eps, torch::executor::Tensor & out, torch::executor::Tensor & save_mean, torch::executor::Tensor & save_invstd) {
+TORCH_API inline ::std::tuple<torch::executor::Tensor &,torch::executor::Tensor &,torch::executor::Tensor &> _native_batch_norm_legit_outf(torch::executor::KernelRuntimeContext & context, const torch::executor::Tensor & input, const std::optional<torch::executor::Tensor> & weight, const std::optional<torch::executor::Tensor> & bias, bool training, double momentum, double eps, torch::executor::Tensor & out, torch::executor::Tensor & save_mean, torch::executor::Tensor & save_invstd) {
     return ::torch::executor::native::_native_batch_norm_legit_no_stats_out(context, input, weight, bias, training, momentum, eps, out, save_mean, save_invstd);
 }
 
 
 // aten::_native_batch_norm_legit_no_training.out(Tensor input, Tensor? weight, Tensor? bias, Tensor running_mean, Tensor running_var, float momentum, float eps, *, Tensor(a!) out0, Tensor(b!) out1, Tensor(c!) out2) -> (Tensor(a!), Tensor(b!), Tensor(c!))
-TORCH_API inline ::std::tuple<torch::executor::Tensor &,torch::executor::Tensor &,torch::executor::Tensor &> _native_batch_norm_legit_no_training_outf(torch::executor::KernelRuntimeContext & context, const torch::executor::Tensor & input, const torch::executor::optional<torch::executor::Tensor> & weight, const torch::executor::optional<torch::executor::Tensor> & bias, const torch::executor::Tensor & running_mean, const torch::executor::Tensor & running_var, double momentum, double eps, torch::executor::Tensor & out0, torch::executor::Tensor & out1, torch::executor::Tensor & out2) {
+TORCH_API inline ::std::tuple<torch::executor::Tensor &,torch::executor::Tensor &,torch::executor::Tensor &> _native_batch_norm_legit_no_training_outf(torch::executor::KernelRuntimeContext & context, const torch::executor::Tensor & input, const std::optional<torch::executor::Tensor> & weight, const std::optional<torch::executor::Tensor> & bias, const torch::executor::Tensor & running_mean, const torch::executor::Tensor & running_var, double momentum, double eps, torch::executor::Tensor & out0, torch::executor::Tensor & out1, torch::executor::Tensor & out2) {
     return ::torch::executor::native::_native_batch_norm_legit_no_training_out(context, input, weight, bias, running_mean, running_var, momentum, eps, out0, out1, out2);
 }
 
@@ -80,7 +86,7 @@ TORCH_API inline torch::executor::Tensor & _softmax_outf(torch::executor::Kernel
 
 
 // aten::_to_copy.out(Tensor self, *, bool non_blocking=False, MemoryFormat? memory_format=None, Tensor(a!) out) -> Tensor(a!)
-TORCH_API inline torch::executor::Tensor & _to_copy_outf(torch::executor::KernelRuntimeContext & context, const torch::executor::Tensor & self, bool non_blocking, torch::executor::optional<torch::executor::MemoryFormat> memory_format, torch::executor::Tensor & out) {
+TORCH_API inline torch::executor::Tensor & _to_copy_outf(torch::executor::KernelRuntimeContext & context, const torch::executor::Tensor & self, bool non_blocking, std::optional<torch::executor::MemoryFormat> memory_format, torch::executor::Tensor & out) {
     return ::torch::executor::native::to_copy_out(context, self, non_blocking, memory_format, out);
 }
 
@@ -146,7 +152,7 @@ TORCH_API inline torch::executor::Tensor & any_outf(torch::executor::KernelRunti
 
 
 // aten::any.dims_out(Tensor self, int[]? dim=None, bool keepdim=False, *, Tensor(a!) out) -> Tensor(a!)
-TORCH_API inline torch::executor::Tensor & any_outf(torch::executor::KernelRuntimeContext & context, const torch::executor::Tensor & self, torch::executor::optional<torch::executor::ArrayRef<int64_t>> dim, bool keepdim, torch::executor::Tensor & out) {
+TORCH_API inline torch::executor::Tensor & any_outf(torch::executor::KernelRuntimeContext & context, const torch::executor::Tensor & self, std::optional<torch::executor::ArrayRef<int64_t>> dim, bool keepdim, torch::executor::Tensor & out) {
     return ::torch::executor::native::any_dims_out(context, self, dim, keepdim, out);
 }
 
@@ -170,19 +176,19 @@ TORCH_API inline torch::executor::Tensor & arange_outf(torch::executor::KernelRu
 
 
 // aten::argmax.out(Tensor self, int? dim=None, bool keepdim=False, *, Tensor(a!) out) -> Tensor(a!)
-TORCH_API inline torch::executor::Tensor & argmax_outf(torch::executor::KernelRuntimeContext & context, const torch::executor::Tensor & self, torch::executor::optional<int64_t> dim, bool keepdim, torch::executor::Tensor & out) {
+TORCH_API inline torch::executor::Tensor & argmax_outf(torch::executor::KernelRuntimeContext & context, const torch::executor::Tensor & self, std::optional<int64_t> dim, bool keepdim, torch::executor::Tensor & out) {
     return ::torch::executor::native::argmax_out(context, self, dim, keepdim, out);
 }
 
 
 // aten::argmin.out(Tensor self, int? dim=None, bool keepdim=False, *, Tensor(a!) out) -> Tensor(a!)
-TORCH_API inline torch::executor::Tensor & argmin_outf(torch::executor::KernelRuntimeContext & context, const torch::executor::Tensor & self, torch::executor::optional<int64_t> dim, bool keepdim, torch::executor::Tensor & out) {
+TORCH_API inline torch::executor::Tensor & argmin_outf(torch::executor::KernelRuntimeContext & context, const torch::executor::Tensor & self, std::optional<int64_t> dim, bool keepdim, torch::executor::Tensor & out) {
     return ::torch::executor::native::argmin_out(context, self, dim, keepdim, out);
 }
 
 
 // aten::as_strided_copy.out(Tensor self, SymInt[] size, SymInt[] stride, SymInt? storage_offset=None, *, Tensor(a!) out) -> Tensor(a!)
-TORCH_API inline torch::executor::Tensor & as_strided_copy_outf(torch::executor::KernelRuntimeContext & context, const torch::executor::Tensor & self, torch::executor::ArrayRef<int64_t> size, torch::executor::ArrayRef<int64_t> stride, torch::executor::optional<int64_t> storage_offset, torch::executor::Tensor & out) {
+TORCH_API inline torch::executor::Tensor & as_strided_copy_outf(torch::executor::KernelRuntimeContext & context, const torch::executor::Tensor & self, torch::executor::ArrayRef<int64_t> size, torch::executor::ArrayRef<int64_t> stride, std::optional<int64_t> storage_offset, torch::executor::Tensor & out) {
     return ::torch::executor::native::as_strided_copy_out(context, self, size, stride, storage_offset, out);
 }
 
@@ -218,7 +224,7 @@ TORCH_API inline torch::executor::Tensor & atanh_outf(torch::executor::KernelRun
 
 
 // aten::avg_pool2d.out(Tensor self, int[2] kernel_size, int[2] stride=[], int[2] padding=0, bool ceil_mode=False, bool count_include_pad=True, int? divisor_override=None, *, Tensor(a!) out) -> Tensor(a!)
-TORCH_API inline torch::executor::Tensor & avg_pool2d_outf(torch::executor::KernelRuntimeContext & context, const torch::executor::Tensor & self, torch::executor::ArrayRef<int64_t> kernel_size, torch::executor::ArrayRef<int64_t> stride, torch::executor::ArrayRef<int64_t> padding, bool ceil_mode, bool count_include_pad, torch::executor::optional<int64_t> divisor_override, torch::executor::Tensor & out) {
+TORCH_API inline torch::executor::Tensor & avg_pool2d_outf(torch::executor::KernelRuntimeContext & context, const torch::executor::Tensor & self, torch::executor::ArrayRef<int64_t> kernel_size, torch::executor::ArrayRef<int64_t> stride, torch::executor::ArrayRef<int64_t> padding, bool ceil_mode, bool count_include_pad, std::optional<int64_t> divisor_override, torch::executor::Tensor & out) {
     return ::torch::executor::native::avg_pool2d_out(context, self, kernel_size, stride, padding, ceil_mode, count_include_pad, divisor_override, out);
 }
 
@@ -295,6 +301,18 @@ TORCH_API inline torch::executor::Tensor & bmm_outf(torch::executor::KernelRunti
 }
 
 
+// aten::bucketize.Tensor_out(Tensor self, Tensor boundaries, *, bool out_int32=False, bool right=False, Tensor(a!) out) -> Tensor(a!)
+TORCH_API inline torch::executor::Tensor & bucketize_outf(torch::executor::KernelRuntimeContext & context, const torch::executor::Tensor & self, const torch::executor::Tensor & boundaries, bool out_int32, bool right, torch::executor::Tensor & out) {
+    return ::torch::executor::native::bucketize_tensor_out(context, self, boundaries, out_int32, right, out);
+}
+
+
+// aten::bucketize.Scalar_out(Scalar self, Tensor boundaries, *, bool out_int32=False, bool right=False, Tensor(a!) out) -> Tensor(a!)
+TORCH_API inline torch::executor::Tensor & bucketize_outf(torch::executor::KernelRuntimeContext & context, const torch::executor::Scalar & self, const torch::executor::Tensor & boundaries, bool out_int32, bool right, torch::executor::Tensor & out) {
+    return ::torch::executor::native::bucketize_scalar_out(context, self, boundaries, out_int32, right, out);
+}
+
+
 // aten::cat.out(Tensor[] tensors, int dim=0, *, Tensor(a!) out) -> Tensor(a!)
 TORCH_API inline torch::executor::Tensor & cat_outf(torch::executor::KernelRuntimeContext & context, torch::executor::TensorList tensors, int64_t dim, torch::executor::Tensor & out) {
     return ::torch::executor::native::cat_out(context, tensors, dim, out);
@@ -308,19 +326,19 @@ TORCH_API inline torch::executor::Tensor & ceil_outf(torch::executor::KernelRunt
 
 
 // aten::clamp.out(Tensor self, Scalar? min=None, Scalar? max=None, *, Tensor(a!) out) -> Tensor(a!)
-TORCH_API inline torch::executor::Tensor & clamp_outf(torch::executor::KernelRuntimeContext & context, const torch::executor::Tensor & self, const torch::executor::optional<torch::executor::Scalar> & min, const torch::executor::optional<torch::executor::Scalar> & max, torch::executor::Tensor & out) {
+TORCH_API inline torch::executor::Tensor & clamp_outf(torch::executor::KernelRuntimeContext & context, const torch::executor::Tensor & self, const std::optional<torch::executor::Scalar> & min, const std::optional<torch::executor::Scalar> & max, torch::executor::Tensor & out) {
     return ::torch::executor::native::clamp_out(context, self, min, max, out);
 }
 
 
 // aten::clamp.Tensor_out(Tensor self, Tensor? min=None, Tensor? max=None, *, Tensor(a!) out) -> Tensor(a!)
-TORCH_API inline torch::executor::Tensor & clamp_outf(torch::executor::KernelRuntimeContext & context, const torch::executor::Tensor & self, const torch::executor::optional<torch::executor::Tensor> & min, const torch::executor::optional<torch::executor::Tensor> & max, torch::executor::Tensor & out) {
+TORCH_API inline torch::executor::Tensor & clamp_outf(torch::executor::KernelRuntimeContext & context, const torch::executor::Tensor & self, const std::optional<torch::executor::Tensor> & min, const std::optional<torch::executor::Tensor> & max, torch::executor::Tensor & out) {
     return ::torch::executor::native::clamp_tensor_out(context, self, min, max, out);
 }
 
 
 // aten::clone.out(Tensor self, *, MemoryFormat? memory_format=None, Tensor(a!) out) -> Tensor(a!)
-TORCH_API inline torch::executor::Tensor & clone_outf(torch::executor::KernelRuntimeContext & context, const torch::executor::Tensor & self, torch::executor::optional<torch::executor::MemoryFormat> memory_format, torch::executor::Tensor & out) {
+TORCH_API inline torch::executor::Tensor & clone_outf(torch::executor::KernelRuntimeContext & context, const torch::executor::Tensor & self, std::optional<torch::executor::MemoryFormat> memory_format, torch::executor::Tensor & out) {
     return ::torch::executor::native::clone_out(context, self, memory_format, out);
 }
 
@@ -332,13 +350,13 @@ TORCH_API inline torch::executor::Tensor & constant_pad_nd_outf(torch::executor:
 
 
 // aten::convolution.out(Tensor input, Tensor weight, Tensor? bias, SymInt[] stride, SymInt[] padding, SymInt[] dilation, bool transposed, SymInt[] output_padding, SymInt groups, *, Tensor(a!) out) -> Tensor(a!)
-TORCH_API inline torch::executor::Tensor & convolution_outf(torch::executor::KernelRuntimeContext & context, const torch::executor::Tensor & input, const torch::executor::Tensor & weight, const torch::executor::optional<torch::executor::Tensor> & bias, torch::executor::ArrayRef<int64_t> stride, torch::executor::ArrayRef<int64_t> padding, torch::executor::ArrayRef<int64_t> dilation, bool transposed, torch::executor::ArrayRef<int64_t> output_padding, int64_t groups, torch::executor::Tensor & out) {
+TORCH_API inline torch::executor::Tensor & convolution_outf(torch::executor::KernelRuntimeContext & context, const torch::executor::Tensor & input, const torch::executor::Tensor & weight, const std::optional<torch::executor::Tensor> & bias, torch::executor::ArrayRef<int64_t> stride, torch::executor::ArrayRef<int64_t> padding, torch::executor::ArrayRef<int64_t> dilation, bool transposed, torch::executor::ArrayRef<int64_t> output_padding, int64_t groups, torch::executor::Tensor & out) {
     return ::torch::executor::native::convolution_out(context, input, weight, bias, stride, padding, dilation, transposed, output_padding, groups, out);
 }
 
 
 // aten::convolution_backward.out(Tensor grad_output, Tensor input, Tensor weight, SymInt[]? bias_sizes, SymInt[] stride, SymInt[] padding, SymInt[] dilation, bool transposed, SymInt[] output_padding, SymInt groups, bool[3] output_mask, *, Tensor(a!) out0, Tensor(b!) out1, Tensor(c!) out2) -> (Tensor(a!), Tensor(b!), Tensor(c!))
-TORCH_API inline ::std::tuple<torch::executor::Tensor &,torch::executor::Tensor &,torch::executor::Tensor &> convolution_backward_outf(torch::executor::KernelRuntimeContext & context, const torch::executor::Tensor & grad_output, const torch::executor::Tensor & input, const torch::executor::Tensor & weight, torch::executor::optional<torch::executor::ArrayRef<int64_t>> bias_sizes, torch::executor::ArrayRef<int64_t> stride, torch::executor::ArrayRef<int64_t> padding, torch::executor::ArrayRef<int64_t> dilation, bool transposed, torch::executor::ArrayRef<int64_t> output_padding, int64_t groups, torch::executor::ArrayRef<bool> output_mask, torch::executor::Tensor & out0, torch::executor::Tensor & out1, torch::executor::Tensor & out2) {
+TORCH_API inline ::std::tuple<torch::executor::Tensor &,torch::executor::Tensor &,torch::executor::Tensor &> convolution_backward_outf(torch::executor::KernelRuntimeContext & context, const torch::executor::Tensor & grad_output, const torch::executor::Tensor & input, const torch::executor::Tensor & weight, std::optional<torch::executor::ArrayRef<int64_t>> bias_sizes, torch::executor::ArrayRef<int64_t> stride, torch::executor::ArrayRef<int64_t> padding, torch::executor::ArrayRef<int64_t> dilation, bool transposed, torch::executor::ArrayRef<int64_t> output_padding, int64_t groups, torch::executor::ArrayRef<bool> output_mask, torch::executor::Tensor & out0, torch::executor::Tensor & out1, torch::executor::Tensor & out2) {
     return ::torch::executor::native::convolution_backward_out(context, grad_output, input, weight, bias_sizes, stride, padding, dilation, transposed, output_padding, groups, output_mask, out0, out1, out2);
 }
 
@@ -367,8 +385,14 @@ TORCH_API inline torch::executor::Tensor & cosh_outf(torch::executor::KernelRunt
 }
 
 
+// aten::cummin.out(Tensor self, int dim, *, Tensor(a!) values, Tensor(b!) indices) -> (Tensor(a!) values, Tensor(b!) indices)
+TORCH_API inline ::std::tuple<torch::executor::Tensor &,torch::executor::Tensor &> cummin_outf(torch::executor::KernelRuntimeContext & context, const torch::executor::Tensor & self, int64_t dim, torch::executor::Tensor & values, torch::executor::Tensor & indices) {
+    return ::torch::executor::native::cummin_out(context, self, dim, values, indices);
+}
+
+
 // aten::cumsum.out(Tensor self, int dim, *, ScalarType? dtype=None, Tensor(a!) out) -> Tensor(a!)
-TORCH_API inline torch::executor::Tensor & cumsum_outf(torch::executor::KernelRuntimeContext & context, const torch::executor::Tensor & self, int64_t dim, torch::executor::optional<torch::executor::ScalarType> dtype, torch::executor::Tensor & out) {
+TORCH_API inline torch::executor::Tensor & cumsum_outf(torch::executor::KernelRuntimeContext & context, const torch::executor::Tensor & self, int64_t dim, std::optional<torch::executor::ScalarType> dtype, torch::executor::Tensor & out) {
     return ::torch::executor::native::cumsum_out(context, self, dim, dtype, out);
 }
 
@@ -392,7 +416,7 @@ TORCH_API inline torch::executor::Tensor & div_outf(torch::executor::KernelRunti
 
 
 // aten::div.Scalar_mode_out(Tensor self, Scalar other, *, str? rounding_mode, Tensor(a!) out) -> Tensor(a!)
-TORCH_API inline torch::executor::Tensor & div_outf(torch::executor::KernelRuntimeContext & context, const torch::executor::Tensor & self, const torch::executor::Scalar & other, torch::executor::optional<torch::executor::string_view> rounding_mode, torch::executor::Tensor & out) {
+TORCH_API inline torch::executor::Tensor & div_outf(torch::executor::KernelRuntimeContext & context, const torch::executor::Tensor & self, const torch::executor::Scalar & other, std::optional<std::string_view> rounding_mode, torch::executor::Tensor & out) {
     return ::torch::executor::native::div_scalar_mode_out(context, self, other, rounding_mode, out);
 }
 
@@ -404,7 +428,7 @@ TORCH_API inline torch::executor::Tensor & div_outf(torch::executor::KernelRunti
 
 
 // aten::div.out_mode(Tensor self, Tensor other, *, str? rounding_mode, Tensor(a!) out) -> Tensor(a!)
-TORCH_API inline torch::executor::Tensor & div_outf(torch::executor::KernelRuntimeContext & context, const torch::executor::Tensor & self, const torch::executor::Tensor & other, torch::executor::optional<torch::executor::string_view> rounding_mode, torch::executor::Tensor & out) {
+TORCH_API inline torch::executor::Tensor & div_outf(torch::executor::KernelRuntimeContext & context, const torch::executor::Tensor & self, const torch::executor::Tensor & other, std::optional<std::string_view> rounding_mode, torch::executor::Tensor & out) {
     return ::torch::executor::native::div_out_mode(context, self, other, rounding_mode, out);
 }
 
@@ -416,7 +440,7 @@ TORCH_API inline torch::executor::Tensor & embedding_outf(torch::executor::Kerne
 
 
 // aten::empty.out(SymInt[] size, *, MemoryFormat? memory_format=None, Tensor(a!) out) -> Tensor(a!)
-TORCH_API inline torch::executor::Tensor & empty_outf(torch::executor::KernelRuntimeContext & context, torch::executor::ArrayRef<int64_t> size, torch::executor::optional<torch::executor::MemoryFormat> memory_format, torch::executor::Tensor & out) {
+TORCH_API inline torch::executor::Tensor & empty_outf(torch::executor::KernelRuntimeContext & context, torch::executor::ArrayRef<int64_t> size, std::optional<torch::executor::MemoryFormat> memory_format, torch::executor::Tensor & out) {
     return ::torch::executor::native::empty_out(context, size, memory_format, out);
 }
 
@@ -512,7 +536,7 @@ TORCH_API inline torch::executor::Tensor & full_outf(torch::executor::KernelRunt
 
 
 // aten::full_like.out(Tensor self, Scalar fill_value, *, MemoryFormat? memory_format=None, Tensor(a!) out) -> Tensor(a!)
-TORCH_API inline torch::executor::Tensor & full_like_outf(torch::executor::KernelRuntimeContext & context, const torch::executor::Tensor & self, const torch::executor::Scalar & fill_value, torch::executor::optional<torch::executor::MemoryFormat> memory_format, torch::executor::Tensor & out) {
+TORCH_API inline torch::executor::Tensor & full_like_outf(torch::executor::KernelRuntimeContext & context, const torch::executor::Tensor & self, const torch::executor::Scalar & fill_value, std::optional<torch::executor::MemoryFormat> memory_format, torch::executor::Tensor & out) {
     return ::torch::executor::native::full_like_out(context, self, fill_value, memory_format, out);
 }
 
@@ -536,7 +560,7 @@ TORCH_API inline torch::executor::Tensor & ge_outf(torch::executor::KernelRuntim
 
 
 // aten::gelu.out(Tensor self, *, str approximate='none', Tensor(a!) out) -> Tensor(a!)
-TORCH_API inline torch::executor::Tensor & gelu_outf(torch::executor::KernelRuntimeContext & context, const torch::executor::Tensor & self, torch::executor::string_view approximate, torch::executor::Tensor & out) {
+TORCH_API inline torch::executor::Tensor & gelu_outf(torch::executor::KernelRuntimeContext & context, const torch::executor::Tensor & self, std::string_view approximate, torch::executor::Tensor & out) {
     return ::torch::executor::native::gelu_out(context, self, approximate, out);
 }
 
@@ -572,19 +596,19 @@ TORCH_API inline torch::executor::Tensor & hardtanh_outf(torch::executor::Kernel
 
 
 // aten::index.Tensor_out(Tensor self, Tensor?[] indices, *, Tensor(a!) out) -> Tensor(a!)
-TORCH_API inline torch::executor::Tensor & index_outf(torch::executor::KernelRuntimeContext & context, const torch::executor::Tensor & self, torch::executor::ArrayRef<torch::executor::optional<torch::executor::Tensor>> indices, torch::executor::Tensor & out) {
+TORCH_API inline torch::executor::Tensor & index_outf(torch::executor::KernelRuntimeContext & context, const torch::executor::Tensor & self, torch::executor::ArrayRef<std::optional<torch::executor::Tensor>> indices, torch::executor::Tensor & out) {
     return ::torch::executor::native::index_Tensor_out(context, self, indices, out);
 }
 
 
 // aten::index_put.out(Tensor self, Tensor?[] indices, Tensor values, bool accumulate=False, *, Tensor(a!) out) -> Tensor(a!)
-TORCH_API inline torch::executor::Tensor & index_put_outf(torch::executor::KernelRuntimeContext & context, const torch::executor::Tensor & self, torch::executor::ArrayRef<torch::executor::optional<torch::executor::Tensor>> indices, const torch::executor::Tensor & values, bool accumulate, torch::executor::Tensor & out) {
+TORCH_API inline torch::executor::Tensor & index_put_outf(torch::executor::KernelRuntimeContext & context, const torch::executor::Tensor & self, torch::executor::ArrayRef<std::optional<torch::executor::Tensor>> indices, const torch::executor::Tensor & values, bool accumulate, torch::executor::Tensor & out) {
     return ::torch::executor::native::index_put_out(context, self, indices, values, accumulate, out);
 }
 
 
 // aten::index_put_(Tensor(a!) self, Tensor?[] indices, Tensor values, bool accumulate=False) -> Tensor(a!)
-TORCH_API inline torch::executor::Tensor & index_put_(torch::executor::KernelRuntimeContext & context, torch::executor::Tensor & self, torch::executor::ArrayRef<torch::executor::optional<torch::executor::Tensor>> indices, const torch::executor::Tensor & values, bool accumulate) {
+TORCH_API inline torch::executor::Tensor & index_put_(torch::executor::KernelRuntimeContext & context, torch::executor::Tensor & self, torch::executor::ArrayRef<std::optional<torch::executor::Tensor>> indices, const torch::executor::Tensor & values, bool accumulate) {
     return ::torch::executor::native::index_put_(context, self, indices, values, accumulate);
 }
 
@@ -680,7 +704,7 @@ TORCH_API inline torch::executor::Tensor & logical_xor_outf(torch::executor::Ker
 
 
 // aten::logit.out(Tensor self, float? eps=None, *, Tensor(a!) out) -> Tensor(a!)
-TORCH_API inline torch::executor::Tensor & logit_outf(torch::executor::KernelRuntimeContext & context, const torch::executor::Tensor & self, torch::executor::optional<double> eps, torch::executor::Tensor & out) {
+TORCH_API inline torch::executor::Tensor & logit_outf(torch::executor::KernelRuntimeContext & context, const torch::executor::Tensor & self, std::optional<double> eps, torch::executor::Tensor & out) {
     return ::torch::executor::native::logit_out(context, self, eps, out);
 }
 
@@ -746,13 +770,13 @@ TORCH_API inline torch::executor::Tensor & max_pool2d_with_indices_backward_outf
 
 
 // aten::mean.out(Tensor self, int[1]? dim, bool keepdim=False, *, ScalarType? dtype=None, Tensor(a!) out) -> Tensor(a!)
-TORCH_API inline torch::executor::Tensor & mean_outf(torch::executor::KernelRuntimeContext & context, const torch::executor::Tensor & self, torch::executor::optional<torch::executor::ArrayRef<int64_t>> dim, bool keepdim, torch::executor::optional<torch::executor::ScalarType> dtype, torch::executor::Tensor & out) {
+TORCH_API inline torch::executor::Tensor & mean_outf(torch::executor::KernelRuntimeContext & context, const torch::executor::Tensor & self, std::optional<torch::executor::ArrayRef<int64_t>> dim, bool keepdim, std::optional<torch::executor::ScalarType> dtype, torch::executor::Tensor & out) {
     return ::torch::executor::native::mean_dim_out(context, self, dim, keepdim, dtype, out);
 }
 
 
 // aten::mean.dtype_out(Tensor self, *, ScalarType? dtype=None, Tensor(a!) out) -> Tensor(a!)
-TORCH_API inline torch::executor::Tensor & mean_outf(torch::executor::KernelRuntimeContext & context, const torch::executor::Tensor & self, torch::executor::optional<torch::executor::ScalarType> dtype, torch::executor::Tensor & out) {
+TORCH_API inline torch::executor::Tensor & mean_outf(torch::executor::KernelRuntimeContext & context, const torch::executor::Tensor & self, std::optional<torch::executor::ScalarType> dtype, torch::executor::Tensor & out) {
     return ::torch::executor::native::mean_dtype_out(context, self, dtype, out);
 }
 
@@ -800,19 +824,19 @@ TORCH_API inline torch::executor::Tensor & narrow_copy_outf(torch::executor::Ker
 
 
 // aten::native_dropout.out(Tensor input, float p, bool? train, *, Tensor(a!) out0, Tensor(b!) out1) -> (Tensor(a!), Tensor(b!))
-TORCH_API inline ::std::tuple<torch::executor::Tensor &,torch::executor::Tensor &> native_dropout_outf(torch::executor::KernelRuntimeContext & context, const torch::executor::Tensor & input, double p, torch::executor::optional<bool> train, torch::executor::Tensor & out0, torch::executor::Tensor & out1) {
+TORCH_API inline ::std::tuple<torch::executor::Tensor &,torch::executor::Tensor &> native_dropout_outf(torch::executor::KernelRuntimeContext & context, const torch::executor::Tensor & input, double p, std::optional<bool> train, torch::executor::Tensor & out0, torch::executor::Tensor & out1) {
     return ::torch::executor::native::native_dropout_out(context, input, p, train, out0, out1);
 }
 
 
 // aten::native_group_norm.out(Tensor input, Tensor? weight, Tensor? bias, SymInt N, SymInt C, SymInt HxW, int group, float eps, *, Tensor(a!) out0, Tensor(b!) out1, Tensor(c!) out2) -> (Tensor(a!), Tensor(b!), Tensor(c!))
-TORCH_API inline ::std::tuple<torch::executor::Tensor &,torch::executor::Tensor &,torch::executor::Tensor &> native_group_norm_outf(torch::executor::KernelRuntimeContext & context, const torch::executor::Tensor & input, const torch::executor::optional<torch::executor::Tensor> & weight, const torch::executor::optional<torch::executor::Tensor> & bias, int64_t N, int64_t C, int64_t HxW, int64_t group, double eps, torch::executor::Tensor & out0, torch::executor::Tensor & out1, torch::executor::Tensor & out2) {
+TORCH_API inline ::std::tuple<torch::executor::Tensor &,torch::executor::Tensor &,torch::executor::Tensor &> native_group_norm_outf(torch::executor::KernelRuntimeContext & context, const torch::executor::Tensor & input, const std::optional<torch::executor::Tensor> & weight, const std::optional<torch::executor::Tensor> & bias, int64_t N, int64_t C, int64_t HxW, int64_t group, double eps, torch::executor::Tensor & out0, torch::executor::Tensor & out1, torch::executor::Tensor & out2) {
     return ::torch::executor::native::native_group_norm_out(context, input, weight, bias, N, C, HxW, group, eps, out0, out1, out2);
 }
 
 
 // aten::native_layer_norm.out(Tensor input, SymInt[] normalized_shape, Tensor? weight, Tensor? bias, float eps, *, Tensor(a!) out0, Tensor(b!) out1, Tensor(c!) out2) -> (Tensor(a!), Tensor(b!), Tensor(c!))
-TORCH_API inline ::std::tuple<torch::executor::Tensor &,torch::executor::Tensor &,torch::executor::Tensor &> native_layer_norm_outf(torch::executor::KernelRuntimeContext & context, const torch::executor::Tensor & input, torch::executor::ArrayRef<int64_t> normalized_shape, const torch::executor::optional<torch::executor::Tensor> & weight, const torch::executor::optional<torch::executor::Tensor> & bias, double eps, torch::executor::Tensor & out0, torch::executor::Tensor & out1, torch::executor::Tensor & out2) {
+TORCH_API inline ::std::tuple<torch::executor::Tensor &,torch::executor::Tensor &,torch::executor::Tensor &> native_layer_norm_outf(torch::executor::KernelRuntimeContext & context, const torch::executor::Tensor & input, torch::executor::ArrayRef<int64_t> normalized_shape, const std::optional<torch::executor::Tensor> & weight, const std::optional<torch::executor::Tensor> & bias, double eps, torch::executor::Tensor & out0, torch::executor::Tensor & out1, torch::executor::Tensor & out2) {
     return ::torch::executor::native::native_layer_norm_out(context, input, normalized_shape, weight, bias, eps, out0, out1, out2);
 }
 
@@ -884,13 +908,13 @@ TORCH_API inline torch::executor::Tensor & pow_outf(torch::executor::KernelRunti
 
 
 // aten::prod.int_out(Tensor self, int dim, bool keepdim=False, *, ScalarType? dtype=None, Tensor(a!) out) -> Tensor(a!)
-TORCH_API inline torch::executor::Tensor & prod_outf(torch::executor::KernelRuntimeContext & context, const torch::executor::Tensor & self, int64_t dim, bool keepdim, torch::executor::optional<torch::executor::ScalarType> dtype, torch::executor::Tensor & out) {
+TORCH_API inline torch::executor::Tensor & prod_outf(torch::executor::KernelRuntimeContext & context, const torch::executor::Tensor & self, int64_t dim, bool keepdim, std::optional<torch::executor::ScalarType> dtype, torch::executor::Tensor & out) {
     return ::torch::executor::native::prod_int_out(context, self, dim, keepdim, dtype, out);
 }
 
 
 // aten::prod.out(Tensor self, *, ScalarType? dtype=None, Tensor(a!) out) -> Tensor(a!)
-TORCH_API inline torch::executor::Tensor & prod_outf(torch::executor::KernelRuntimeContext & context, const torch::executor::Tensor & self, torch::executor::optional<torch::executor::ScalarType> dtype, torch::executor::Tensor & out) {
+TORCH_API inline torch::executor::Tensor & prod_outf(torch::executor::KernelRuntimeContext & context, const torch::executor::Tensor & self, std::optional<torch::executor::ScalarType> dtype, torch::executor::Tensor & out) {
     return ::torch::executor::native::prod_out(context, self, dtype, out);
 }
 
@@ -938,7 +962,7 @@ TORCH_API inline torch::executor::Tensor & repeat_outf(torch::executor::KernelRu
 
 
 // aten::repeat_interleave.Tensor_out(Tensor repeats, *, SymInt? output_size=None, Tensor(a!) out) -> Tensor(a!)
-TORCH_API inline torch::executor::Tensor & repeat_interleave_outf(torch::executor::KernelRuntimeContext & context, const torch::executor::Tensor & repeats, torch::executor::optional<int64_t> output_size, torch::executor::Tensor & out) {
+TORCH_API inline torch::executor::Tensor & repeat_interleave_outf(torch::executor::KernelRuntimeContext & context, const torch::executor::Tensor & repeats, std::optional<int64_t> output_size, torch::executor::Tensor & out) {
     return ::torch::executor::native::repeat_interleave_Tensor_out(context, repeats, output_size, out);
 }
 
@@ -1064,13 +1088,13 @@ TORCH_API inline torch::executor::Tensor & sinh_outf(torch::executor::KernelRunt
 
 
 // aten::slice_copy.Tensor_out(Tensor self, int dim=0, SymInt? start=None, SymInt? end=None, SymInt step=1, *, Tensor(a!) out) -> Tensor(a!)
-TORCH_API inline torch::executor::Tensor & slice_copy_outf(torch::executor::KernelRuntimeContext & context, const torch::executor::Tensor & self, int64_t dim, torch::executor::optional<int64_t> start, torch::executor::optional<int64_t> end, int64_t step, torch::executor::Tensor & out) {
+TORCH_API inline torch::executor::Tensor & slice_copy_outf(torch::executor::KernelRuntimeContext & context, const torch::executor::Tensor & self, int64_t dim, std::optional<int64_t> start, std::optional<int64_t> end, int64_t step, torch::executor::Tensor & out) {
     return ::torch::executor::native::slice_copy_Tensor_out(context, self, dim, start, end, step, out);
 }
 
 
 // aten::slice_scatter.out(Tensor self, Tensor src, int dim=0, SymInt? start=None, SymInt? end=None, SymInt step=1, *, Tensor(a!) out) -> Tensor(a!)
-TORCH_API inline torch::executor::Tensor & slice_scatter_outf(torch::executor::KernelRuntimeContext & context, const torch::executor::Tensor & self, const torch::executor::Tensor & src, int64_t dim, torch::executor::optional<int64_t> start, torch::executor::optional<int64_t> end, int64_t step, torch::executor::Tensor & out) {
+TORCH_API inline torch::executor::Tensor & slice_scatter_outf(torch::executor::KernelRuntimeContext & context, const torch::executor::Tensor & self, const torch::executor::Tensor & src, int64_t dim, std::optional<int64_t> start, std::optional<int64_t> end, int64_t step, torch::executor::Tensor & out) {
     return ::torch::executor::native::slice_scatter_out(context, self, src, dim, start, end, step, out);
 }
 
@@ -1124,7 +1148,7 @@ TORCH_API inline torch::executor::Tensor & sub_outf(torch::executor::KernelRunti
 
 
 // aten::sum.IntList_out(Tensor self, int[1]? dim, bool keepdim=False, *, ScalarType? dtype=None, Tensor(a!) out) -> Tensor(a!)
-TORCH_API inline torch::executor::Tensor & sum_outf(torch::executor::KernelRuntimeContext & context, const torch::executor::Tensor & self, torch::executor::optional<torch::executor::ArrayRef<int64_t>> dim, bool keepdim, torch::executor::optional<torch::executor::ScalarType> dtype, torch::executor::Tensor & out) {
+TORCH_API inline torch::executor::Tensor & sum_outf(torch::executor::KernelRuntimeContext & context, const torch::executor::Tensor & self, std::optional<torch::executor::ArrayRef<int64_t>> dim, bool keepdim, std::optional<torch::executor::ScalarType> dtype, torch::executor::Tensor & out) {
     return ::torch::executor::native::sum_dim_out(context, self, dim, keepdim, dtype, out);
 }
 
@@ -1189,38 +1213,44 @@ TORCH_API inline torch::executor::Tensor & unsqueeze_copy_outf(torch::executor::
 }
 
 
+// aten::_upsample_bicubic2d_aa.out(Tensor self, SymInt[2] output_size, bool align_corners, float? scales_h=None, float? scales_w=None, *, Tensor(a!) out) -> Tensor(a!)
+TORCH_API inline torch::executor::Tensor & _upsample_bicubic2d_aa_outf(torch::executor::KernelRuntimeContext & context, const torch::executor::Tensor & self, torch::executor::ArrayRef<int64_t> output_size, bool align_corners, std::optional<double> scales_h, std::optional<double> scales_w, torch::executor::Tensor & out) {
+    return ::torch::executor::native::_upsample_bicubic2d_aa_out(context, self, output_size, align_corners, scales_h, scales_w, out);
+}
+
+
 // aten::upsample_bilinear2d.vec_out(Tensor input, SymInt[]? output_size, bool align_corners, float[]? scale_factors, *, Tensor(a!) out) -> Tensor(a!)
-TORCH_API inline torch::executor::Tensor & upsample_bilinear2d_outf(torch::executor::KernelRuntimeContext & context, const torch::executor::Tensor & input, torch::executor::optional<torch::executor::ArrayRef<int64_t>> output_size, bool align_corners, torch::executor::optional<torch::executor::ArrayRef<double>> scale_factors, torch::executor::Tensor & out) {
+TORCH_API inline torch::executor::Tensor & upsample_bilinear2d_outf(torch::executor::KernelRuntimeContext & context, const torch::executor::Tensor & input, std::optional<torch::executor::ArrayRef<int64_t>> output_size, bool align_corners, std::optional<torch::executor::ArrayRef<double>> scale_factors, torch::executor::Tensor & out) {
     return ::torch::executor::native::upsample_bilinear2d_vec_out(context, input, output_size, align_corners, scale_factors, out);
 }
 
 
 // aten::_upsample_bilinear2d_aa.out(Tensor self, SymInt[2] output_size, bool align_corners, float? scales_h=None, float? scales_w=None, *, Tensor(a!) out) -> Tensor(a!)
-TORCH_API inline torch::executor::Tensor & _upsample_bilinear2d_aa_outf(torch::executor::KernelRuntimeContext & context, const torch::executor::Tensor & self, torch::executor::ArrayRef<int64_t> output_size, bool align_corners, torch::executor::optional<double> scales_h, torch::executor::optional<double> scales_w, torch::executor::Tensor & out) {
+TORCH_API inline torch::executor::Tensor & _upsample_bilinear2d_aa_outf(torch::executor::KernelRuntimeContext & context, const torch::executor::Tensor & self, torch::executor::ArrayRef<int64_t> output_size, bool align_corners, std::optional<double> scales_h, std::optional<double> scales_w, torch::executor::Tensor & out) {
     return ::torch::executor::native::_upsample_bilinear2d_aa_out(context, self, output_size, align_corners, scales_h, scales_w, out);
 }
 
 
 // aten::upsample_nearest2d.vec_out(Tensor input, SymInt[]? output_size, float[]? scale_factors, *, Tensor(a!) out) -> Tensor(a!)
-TORCH_API inline torch::executor::Tensor & upsample_nearest2d_outf(torch::executor::KernelRuntimeContext & context, const torch::executor::Tensor & input, torch::executor::optional<torch::executor::ArrayRef<int64_t>> output_size, torch::executor::optional<torch::executor::ArrayRef<double>> scale_factors, torch::executor::Tensor & out) {
+TORCH_API inline torch::executor::Tensor & upsample_nearest2d_outf(torch::executor::KernelRuntimeContext & context, const torch::executor::Tensor & input, std::optional<torch::executor::ArrayRef<int64_t>> output_size, std::optional<torch::executor::ArrayRef<double>> scale_factors, torch::executor::Tensor & out) {
     return ::torch::executor::native::upsample_nearest2d_vec_out(context, input, output_size, scale_factors, out);
 }
 
 
 // aten::var.correction_out(Tensor self, int[1]? dim=None, *, Scalar? correction=None, bool keepdim=False, Tensor(a!) out) -> Tensor(a!)
-TORCH_API inline torch::executor::Tensor & var_outf(torch::executor::KernelRuntimeContext & context, const torch::executor::Tensor & self, torch::executor::optional<torch::executor::ArrayRef<int64_t>> dim, const torch::executor::optional<torch::executor::Scalar> & correction, bool keepdim, torch::executor::Tensor & out) {
+TORCH_API inline torch::executor::Tensor & var_outf(torch::executor::KernelRuntimeContext & context, const torch::executor::Tensor & self, std::optional<torch::executor::ArrayRef<int64_t>> dim, const std::optional<torch::executor::Scalar> & correction, bool keepdim, torch::executor::Tensor & out) {
     return ::torch::executor::native::var_correction_out(context, self, dim, correction, keepdim, out);
 }
 
 
 // aten::var_mean.correction_out(Tensor self, int[1]? dim=None, *, Scalar? correction=None, bool keepdim=False, Tensor(a!) out0, Tensor(b!) out1) -> (Tensor(a!), Tensor(b!))
-TORCH_API inline ::std::tuple<torch::executor::Tensor &,torch::executor::Tensor &> var_mean_outf(torch::executor::KernelRuntimeContext & context, const torch::executor::Tensor & self, torch::executor::optional<torch::executor::ArrayRef<int64_t>> dim, const torch::executor::optional<torch::executor::Scalar> & correction, bool keepdim, torch::executor::Tensor & out0, torch::executor::Tensor & out1) {
+TORCH_API inline ::std::tuple<torch::executor::Tensor &,torch::executor::Tensor &> var_mean_outf(torch::executor::KernelRuntimeContext & context, const torch::executor::Tensor & self, std::optional<torch::executor::ArrayRef<int64_t>> dim, const std::optional<torch::executor::Scalar> & correction, bool keepdim, torch::executor::Tensor & out0, torch::executor::Tensor & out1) {
     return ::torch::executor::native::var_mean_correction_out(context, self, dim, correction, keepdim, out0, out1);
 }
 
 
 // aten::var.out(Tensor self, int[1]? dim, bool unbiased=True, bool keepdim=False, *, Tensor(a!) out) -> Tensor(a!)
-TORCH_API inline torch::executor::Tensor & var_outf(torch::executor::KernelRuntimeContext & context, const torch::executor::Tensor & self, torch::executor::optional<torch::executor::ArrayRef<int64_t>> dim, bool unbiased, bool keepdim, torch::executor::Tensor & out) {
+TORCH_API inline torch::executor::Tensor & var_outf(torch::executor::KernelRuntimeContext & context, const torch::executor::Tensor & self, std::optional<torch::executor::ArrayRef<int64_t>> dim, bool unbiased, bool keepdim, torch::executor::Tensor & out) {
     return ::torch::executor::native::var_out(context, self, dim, unbiased, keepdim, out);
 }
 
@@ -1250,22 +1280,37 @@ TORCH_API inline torch::executor::Tensor & zeros_outf(torch::executor::KernelRun
 
 } // namespace aten
 
+namespace et_copy {
+
+// et_copy::_h2d_copy.out(Tensor self, *, Tensor(a!) out) -> Tensor(a!)
+TORCH_API inline torch::executor::Tensor & _h2d_copy_outf(torch::executor::KernelRuntimeContext & context, const torch::executor::Tensor & self, torch::executor::Tensor & out) {
+    return ::torch::executor::native::_h2d_copy_out(context, self, out);
+}
+
+
+// et_copy::_d2h_copy.out(Tensor self, *, Tensor(a!) out) -> Tensor(a!)
+TORCH_API inline torch::executor::Tensor & _d2h_copy_outf(torch::executor::KernelRuntimeContext & context, const torch::executor::Tensor & self, torch::executor::Tensor & out) {
+    return ::torch::executor::native::_d2h_copy_out(context, self, out);
+}
+
+} // namespace et_copy
+
 namespace dim_order_ops {
 
-// dim_order_ops::_empty_dim_order.out(int[] size, *, int[]? dim_order=None, Tensor(a!) out) -> Tensor(a!)
-TORCH_API inline torch::executor::Tensor & _empty_dim_order_outf(torch::executor::KernelRuntimeContext & context, torch::executor::ArrayRef<int64_t> size, torch::executor::optional<torch::executor::ArrayRef<int64_t>> dim_order, torch::executor::Tensor & out) {
+// dim_order_ops::_empty_dim_order.out(SymInt[] size, *, int[]? dim_order=None, Tensor(a!) out) -> Tensor(a!)
+TORCH_API inline torch::executor::Tensor & _empty_dim_order_outf(torch::executor::KernelRuntimeContext & context, torch::executor::ArrayRef<int64_t> size, std::optional<torch::executor::ArrayRef<int64_t>> dim_order, torch::executor::Tensor & out) {
     return ::torch::executor::native::_empty_dim_order_out(context, size, dim_order, out);
 }
 
 
 // dim_order_ops::_to_dim_order_copy.out(Tensor self, *, bool non_blocking=False, int[]? dim_order=None, Tensor(a!) out) -> Tensor(a!)
-TORCH_API inline torch::executor::Tensor & _to_dim_order_copy_outf(torch::executor::KernelRuntimeContext & context, const torch::executor::Tensor & self, bool non_blocking, torch::executor::optional<torch::executor::ArrayRef<int64_t>> dim_order, torch::executor::Tensor & out) {
+TORCH_API inline torch::executor::Tensor & _to_dim_order_copy_outf(torch::executor::KernelRuntimeContext & context, const torch::executor::Tensor & self, bool non_blocking, std::optional<torch::executor::ArrayRef<int64_t>> dim_order, torch::executor::Tensor & out) {
     return ::torch::executor::native::_to_dim_order_copy_out(context, self, non_blocking, dim_order, out);
 }
 
 
 // dim_order_ops::_clone_dim_order.out(Tensor self, *, bool non_blocking=False, int[]? dim_order=None, Tensor(a!) out) -> Tensor(a!)
-TORCH_API inline torch::executor::Tensor & _clone_dim_order_outf(torch::executor::KernelRuntimeContext & context, const torch::executor::Tensor & self, bool non_blocking, torch::executor::optional<torch::executor::ArrayRef<int64_t>> dim_order, torch::executor::Tensor & out) {
+TORCH_API inline torch::executor::Tensor & _clone_dim_order_outf(torch::executor::KernelRuntimeContext & context, const torch::executor::Tensor & self, bool non_blocking, std::optional<torch::executor::ArrayRef<int64_t>> dim_order, torch::executor::Tensor & out) {
     return ::torch::executor::native::_clone_dim_order_out(context, self, non_blocking, dim_order, out);
 }
 
