@@ -5,8 +5,8 @@
     .minimum_zig_version = "0.17.1",
     .dependencies = .{
         .xnnpack = .{
-            .url = "git+https://github.com/nat3Github/c-lib-xnnpack#8665997c10aa00c77f88a4406fd5e35c50ed6d5f",
-            .hash = "xnnpack-0.0.0-f9lA7I0I6gZjYn4QFQcutvwmLHh28ahBIUdC-yVfaXFo",
+            .url = "git+https://github.com/nat3Github/c-lib-xnnpack#fd65d362031e5a4461568a05525c6b2b9463ec4f",
+            .hash = "xnnpack-0.0.0-f9lA7MuJSAd_rAMJcgz-TIUENqT15q_5ezzbKShYGP6A",
         },
         .cpuinfo = .{
             .url = "git+https://github.com/nat3Github/c-lib-cpuinfo#94811dbe0432536919ce1be5a577a7df19bd7c6a",
