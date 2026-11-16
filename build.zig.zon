@@ -1,0 +1,17 @@
+.{
+    .name = .lib_executorch,
+    .version = "0.0.0",
+    .fingerprint = 0xe10e6a46061e2413,
+    .minimum_zig_version = "0.17.1",
+    .dependencies = .{
+        .xnnpack = .{ .path = "../xnnpack-fork" },
+        .cpuinfo = .{ .path = "../cpuinfo" },
+        .pthreadpool = .{ .path = "../pthreadpool-fork" },
+    },
+    .paths = .{
+        "build.zig",
+        "build.zig.zon",
+        "src",
+        "vendor",
+    },
+}
