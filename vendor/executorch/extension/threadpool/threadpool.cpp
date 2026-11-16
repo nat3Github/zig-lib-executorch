@@ -119,7 +119,7 @@ void ThreadPool::run(
       },
       &context,
       range,
-      0u);
+      PTHREADPOOL_FLAG_DISABLE_DENORMALS);
 }
 
 // get_threadpool is not thread safe due to leak_corrupted_threadpool

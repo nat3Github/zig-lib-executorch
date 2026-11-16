@@ -178,8 +178,8 @@ ETResult* et_module_forward(ETModule* m, const ETTensor* inputs, int32_t n_input
   }
   /* Denormals make portable kernels orders of magnitude slower (decaying
    * audio tails hit them constantly). Flush them for this call only and give
-   * the caller's thread its FPU state back. XNNPACK's pool workers already
-   * run with PTHREADPOOL_FLAG_DISABLE_DENORMALS. */
+   * the caller's thread its FPU state back. Pool workers (XNNPACK and the
+   * portable parallel_for) run with PTHREADPOOL_FLAG_DISABLE_DENORMALS. */
   const struct fpu_state saved = get_fpu_state();
   disable_fpu_denormals();
   auto result = m->module.forward(args);
