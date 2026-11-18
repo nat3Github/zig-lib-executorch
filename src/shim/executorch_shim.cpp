@@ -133,7 +133,8 @@ int32_t et_module_validate_inputs(ETModule* m, const ETTensor* inputs, int32_t n
     if (info->scalar_type() != *want_type) return -4;
     if (static_cast<int32_t>(info->sizes().size()) != inputs[i].rank) return -4;
     for (int32_t d = 0; d < inputs[i].rank; ++d) {
-      if (info->sizes()[d] != inputs[i].sizes[d]) return -4;
+      // The program records upper bounds; set_input rejects a static shape that differs.
+      if (inputs[i].sizes[d] < 0 || inputs[i].sizes[d] > info->sizes()[d]) return -4;
     }
   }
   return 0;

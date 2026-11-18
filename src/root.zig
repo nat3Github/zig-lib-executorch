@@ -273,8 +273,10 @@ pub const Module = struct {
 
     /// inputs must outlive the call (not copied). Caller must deinit() the result.
     /// Validates inputs against the loaded method's expected count/rank/dtype
-    /// before calling into the kernel, so a mismatch surfaces as
-    /// error.InvalidInput instead of undefined behavior.
+    /// and caps every dim at the size recorded in the program (the upper bound
+    /// of a dynamic dim), so a mismatch surfaces as error.InvalidInput instead
+    /// of undefined behavior. A smaller dim of a static shape is rejected by
+    /// ExecuTorch with error.NotSupported.
     pub fn forward(self: Module, inputs: []const Tensor, arena: std.mem.Allocator) !ForwardResult {
         const c_inputs = try arena.alloc(c.ETTensor, inputs.len);
         for (inputs, 0..) |t, i| c_inputs[i] = t.toC();
