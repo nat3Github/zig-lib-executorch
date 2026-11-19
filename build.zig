@@ -29,6 +29,12 @@ const cxx_flags = &[_][]const u8{
 // ODR violation, not just a XNNPACK-local concern.
 const et_use_threadpool_flag = "-DET_USE_THREADPOOL";
 
+// Upstream CMake default (EXECUTORCH_XNNPACK_SHARED_WORKSPACE=ON): all XNNPACK
+// delegates of a process share one scratch workspace. Without it every
+// delegate keeps its own, and a .pte with ~100 delegates holding attention
+// matrices multiplies peak RSS.
+const xnnpack_shared_workspace_flag = "-DENABLE_XNNPACK_SHARED_WORKSPACE";
+
 pub fn build(b: *std.Build) void {
     const target = b.standardTargetOptions(.{});
     const optimize = b.standardOptimizeOption(.{});
@@ -93,7 +99,7 @@ fn addLibModule(b: *std.Build, target: std.Build.ResolvedTarget, optimize: std.b
         },
         else => false,
     };
-    const threadpool_flags: []const []const u8 = if (xnnpack_enabled) &.{et_use_threadpool_flag} else &.{};
+    const threadpool_flags: []const []const u8 = if (xnnpack_enabled) &.{ et_use_threadpool_flag, xnnpack_shared_workspace_flag } else &.{};
     const active_cxx_flags = std.mem.concat(b.allocator, []const u8, &.{ cxx_flags, threadpool_flags, extra_cxx_flags }) catch @panic("OOM");
     if (xnnpack_enabled) addXnnpackBackend(b, mod, target, optimize);
 
